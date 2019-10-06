@@ -91,28 +91,12 @@ workflows:
           name: pre-integration-master
           filters: *integration-master_filters
 
-      - aws-ecr/build-and-push-image:
-          name: integration-tests-master
-          attach-workspace: true
-          workspace-root: workspace
-          profile-name: testing
-          repo: aws-ecr-orb-${CIRCLE_SHA1:0:7}
-          create-repo: true
-          tag: integration-master,myECRRepoTag
-          dockerfile: workspace/Dockerfile
-          path: workspace
-          extra-build-args: --compress
-          filters: *integration-master_filters
-          post-steps: *integration-post-steps
-          requires: [pre-integration-master]
-
       # patch, minor, or major publishing
       - orb-tools/dev-promote-prod:
           name: dev-promote-patch
           context: orb-publishing
           orb-name: dev-kpyc/aws-ecr
           ssh-fingerprints: 54:b8:9b:79:74:29:3e:dd:95:52:4d:4b:e6:8b:38:f2
-          requires: [integration-tests-master]
           filters:
             branches:
               ignore: /.*/
@@ -125,7 +109,6 @@ workflows:
           context: orb-publishing
           orb-name: dev-kpyc/aws-ecr
           ssh-fingerprints: 54:b8:9b:79:74:29:3e:dd:95:52:4d:4b:e6:8b:38:f2
-          requires: [integration-tests-master]
           filters:
             branches:
               ignore: /.*/
@@ -138,7 +121,6 @@ workflows:
           context: orb-publishing
           orb-name: dev-kpyc/aws-ecr
           ssh-fingerprints: 54:b8:9b:79:74:29:3e:dd:95:52:4d:4b:e6:8b:38:f2
-          requires: [integration-tests-master]
           filters:
             branches:
               ignore: /.*/
