@@ -9,3 +9,9 @@ parameters:
 
 machine:
   image: <<parameters.image>>
+
+environment:
+  AWS_ACCESS_KEY_ID: << parameters.aws-access-key-id >>
+  AWS_SECRET_ACCESS_KEY: << parameters.aws-secret-access-key >>
+  AWS_ECR_ACCOUNT_URL: << parameters.account-url >>
+  AWS_REGION: << parameters.region >>
